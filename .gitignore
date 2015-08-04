@@ -1,0 +1,15 @@
+# Gradle artifacts
+build/
+.gradle/
+gradle/
+*.jar
+
+# Mac files
+.DS_Store
+
+# IntelliJ files
+*.iml
+.idea/
+*.ipr
+*.iws
+out/
