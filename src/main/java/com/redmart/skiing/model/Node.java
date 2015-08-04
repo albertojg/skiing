@@ -82,4 +82,74 @@ public class Node
     {
         return this.value;
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Node node = (Node) o;
+
+        if (getSequenceNumber() != node.getSequenceNumber()) return false;
+        if (value() != node.value()) return false;
+
+        if (north() == null) {
+            if (node.north() != null) {
+                return false;
+            }
+        } else {
+            if (north().getSequenceNumber() != node.north().getSequenceNumber() ||
+                    north().value() != node.north().value()) {
+                return false;
+            }
+        }
+
+        if (east() == null) {
+            if (node.east() != null) {
+                return false;
+            }
+        } else {
+            if (east().getSequenceNumber() != node.east().getSequenceNumber() ||
+                    east().value() != node.east().value()) {
+                return false;
+            }
+        }
+
+        if (south() == null) {
+            if (node.south() != null) {
+                return false;
+            }
+        } else {
+            if (south().getSequenceNumber() != node.south().getSequenceNumber() ||
+                    south().value() != node.south().value()) {
+                return false;
+            }
+        }
+
+        if (west() == null) {
+            if (node.west() != null) {
+                return false;
+            }
+        } else {
+            if (west().getSequenceNumber() != node.west().getSequenceNumber() ||
+                    west().value() != node.west().value()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = getSequenceNumber();
+        result = 31 * result + value;
+        result = 31 * result + (north != null ? north.value() : 0);
+        result = 31 * result + (south != null ? south.value() : 0);
+        result = 31 * result + (east != null ? east.value() : 0);
+        result = 31 * result + (west != null ? west.value() : 0);
+        return result;
+    }
 }
