@@ -1,11 +1,14 @@
 package com.redmart.skiing.parser.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+
 import com.redmart.skiing.model.Node;
 import com.redmart.skiing.parser.InputParser;
-import com.sun.media.sound.InvalidFormatException;
-
-import java.io.FileNotFoundException;
-import java.util.List;
 
 /**
  * Parse the input file in the grid pattern.
@@ -35,8 +38,10 @@ import java.util.List;
 public class GridInputParser implements InputParser
 {
     @Override
-    public List<Node> parseInput(String path) throws FileNotFoundException, InvalidFormatException
+    public List<Node> parseInput(String path) throws IOException, ParseException
     {
+        //File file = FileUtils.getFile(path);
+
         return null;
     }
 }
