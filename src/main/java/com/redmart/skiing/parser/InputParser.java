@@ -1,10 +1,10 @@
 package com.redmart.skiing.parser;
 
-import com.redmart.skiing.exception.UnparsableInputFileException;
-import com.redmart.skiing.model.Node;
-
 import java.io.IOException;
 import java.util.List;
+
+import com.redmart.skiing.exception.UnparsableInputFileException;
+import com.redmart.skiing.model.Node;
 
 /**
  * Parser to parse the given input data and produce the graph representation of the problem
