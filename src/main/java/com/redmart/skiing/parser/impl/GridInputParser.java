@@ -2,11 +2,14 @@ package com.redmart.skiing.parser.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang3.StringUtils;
 
+import com.redmart.skiing.exception.UnparsableInputFileException;
 import com.redmart.skiing.model.Node;
 import com.redmart.skiing.parser.InputParser;
 
@@ -38,10 +41,88 @@ import com.redmart.skiing.parser.InputParser;
 public class GridInputParser implements InputParser
 {
     @Override
-    public List<Node> parseInput(String path) throws IOException, ParseException
+    public List<Node> parseInput(String path) throws UnparsableInputFileException, IOException
     {
-        //File file = FileUtils.getFile(path);
+        File file = FileUtils.getFile(path);
+        LineIterator iter = FileUtils.lineIterator(file);
 
-        return null;
+        // extract dimension from first line
+        int row = 0, col = 0;
+        if (iter.hasNext()) {
+            String line = iter.next();
+
+            String[] dimension = line.split(" ");
+            if (dimension.length != 2) {
+                throw new UnparsableInputFileException("Unable to parse grid dimension!");
+            }
+
+            try {
+                row = Integer.parseInt(dimension[0]);
+                col = Integer.parseInt(dimension[1]);
+            } catch (NumberFormatException nfe) {
+                throw new UnparsableInputFileException("Invalid dimension entry!", nfe);
+            }
+        }
+
+        return parseGrid(iter, row, col);
+    }
+
+    private List<Node> parseGrid(LineIterator iterator, int row, int col) throws UnparsableInputFileException
+    {
+        int sequence = 1;
+        List<Node> nodes = new ArrayList<Node>();
+
+        // parse the grid
+        try {
+            while (iterator.hasNext()) {
+                String line = iterator.next();
+                if (StringUtils.isEmpty(line)) {
+                    continue;
+                }
+
+                String[] values = line.split(" ");
+                for (String value: values) {
+                    if (!StringUtils.isEmpty(value)) {
+                        nodes.add(new Node(sequence, Integer.parseInt(value)));
+                        sequence++;
+                    }
+                }
+            }
+        } catch (NumberFormatException nfe) {
+            throw new UnparsableInputFileException("Invalid grid entry!", nfe);
+        }
+
+        if (nodes.size() < (row * col) || nodes.size() > (row * col)) {
+            throw new UnparsableInputFileException("Invalid grid entry count!");
+        }
+
+        // set the connection
+        for (int r = 0; r < row; r++) {
+            for (int c = 0; c < col; c++) {
+                Node node = nodes.get(r * row + c);
+
+                // north
+                if (r - 1 >= 0) {
+                    node.setNorth(nodes.get((r - 1) * row + c));
+                }
+
+                // south
+                if (r + 1 < row) {
+                    node.setSouth(nodes.get((r + 1) * row + c));
+                }
+
+                // east
+                if (c + 1 < col) {
+                    node.setEast(nodes.get((r * row) + (c + 1)));
+                }
+
+                // west
+                if (c - 1 >= 0) {
+                    node.setWest(nodes.get((r * row) + (c - 1)));
+                }
+            }
+        }
+
+        return nodes;
     }
 }
