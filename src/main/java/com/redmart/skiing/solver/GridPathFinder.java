@@ -23,13 +23,20 @@ public class GridPathFinder
 
         List<Node> longest = new ArrayList<Node>();
         for (Node node: nodes) {
-            if (node.value() - nodes.get(nodes.size() - 1).value() < longest.size()) {
-                break;
+            List<Node> path = calculateLongestPath(node);
+            if (path == null) {
+                continue;
             }
 
-            List<Node> path = calculateLongestPath(node);
-            if (path != null && (path.size() > longest.size())) {
+            if (path.size() > longest.size()) {
                 longest = path;
+            } else if (path.size() == longest.size()) {
+                int pathDepth = path.get(0).value() - path.get(path.size() - 1).value();
+                int longestDepth = longest.get(0).value() - longest.get(longest.size() - 1).value();
+
+                if (pathDepth < longestDepth) {
+                    longest = path;
+                }
             }
         }
 
