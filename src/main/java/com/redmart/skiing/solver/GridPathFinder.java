@@ -1,7 +1,10 @@
 package com.redmart.skiing.solver;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.redmart.skiing.comparator.NodeValueComparator;
 import com.redmart.skiing.model.Node;
 
 /**
@@ -16,6 +19,70 @@ public class GridPathFinder
             throw new IllegalArgumentException("Unable to find longest path for null / empty nodes!");
         }
 
-        return null;
+        Collections.sort(nodes, new NodeValueComparator());
+
+        List<Node> longest = new ArrayList<Node>();
+        for (Node node: nodes) {
+            if (node.value() - nodes.get(nodes.size() - 1).value() < longest.size()) {
+                break;
+            }
+
+            List<Node> path = calculateLongestPath(node);
+            if (path != null && (path.size() > longest.size())) {
+                longest = path;
+            }
+        }
+
+        Collections.sort(longest, new NodeValueComparator());
+        return longest;
+    }
+
+    private List<Node> calculateLongestPath(Node node)
+    {
+        // compute longest path for each direction
+        List<Node> northPath = null;
+        if (node.north() != null && node.value() > node.north().value()) {
+            northPath = calculateLongestPath(node.north());
+        }
+
+        List<Node> eastPath = null;
+        if (node.east() != null && node.value() > node.east().value()) {
+            eastPath = calculateLongestPath(node.east());
+        }
+
+        List<Node> southPath = null;
+        if (node.south() != null && node.value() > node.south().value()) {
+            southPath = calculateLongestPath(node.south());
+        }
+
+        List<Node> westPath = null;
+        if (node.west() != null && node.value() > node.west().value()) {
+            westPath = calculateLongestPath(node.west());
+        }
+
+        // take the longest path of all 4 directions and add current node to generate the longest path for current node
+        List<Node> longestPath = getLongestList(northPath, eastPath);
+        longestPath = getLongestList(longestPath, southPath);
+        longestPath = getLongestList(longestPath, westPath);
+
+        if (longestPath == null) {
+            longestPath = new ArrayList<Node>();
+        }
+        longestPath.add(node);
+
+        return longestPath;
+    }
+
+    private List<Node> getLongestList(List<Node> a, List<Node> b)
+    {
+        if (a == null && b == null) {
+            return null;
+        } else if (a == null) {
+            return b;
+        } else if (b == null) {
+            return a;
+        } else {
+            return a.size() > b.size() ? a : b;
+        }
     }
 }
