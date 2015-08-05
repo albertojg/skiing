@@ -4,7 +4,11 @@ apply plugin: 'idea'
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
-description = "Skiing Problem by Redmart Team (http://geeks.redmart.com/2015/01/07/skiing-in-singapore-a-coding-diversion/)"
+description = """
+    Skiing Problem by Redmart Team
+    Reference:
+        http://geeks.redmart.com/2015/01/07/skiing-in-singapore-a-coding-diversion/
+    """
 
 repositories {
     mavenCentral()
@@ -17,3 +21,20 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version:'4.11'
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.redmart.skiing.Main'
+    }
+}
+
+task main(type: JavaExec, dependsOn: classes) {
+    classpath = sourceSets.main.runtimeClasspath
+    description = "Task to execute main class of the project"
+    main = "com.redmart.skiing.Main"
+    args = ["$inputFilePath"]
+}
+
+// create Gradle wrapper
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.4'
+}
