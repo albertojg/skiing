@@ -29,9 +29,12 @@ jar {
 
 task main(type: JavaExec, dependsOn: classes) {
     classpath = sourceSets.main.runtimeClasspath
-    description = "Task to execute main class of the project"
+    description = "Task to execute main class of the project."
     main = "com.redmart.skiing.Main"
-    args = ["$inputFilePath"]
+
+    if (project.hasProperty("inputFilePath")) {
+        args = ["$inputFilePath"]
+    }
 }
 
 // create Gradle wrapper
