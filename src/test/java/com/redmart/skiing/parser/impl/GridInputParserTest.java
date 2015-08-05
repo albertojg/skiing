@@ -1,12 +1,13 @@
 package com.redmart.skiing.parser.impl;
 
-import com.redmart.skiing.model.Node;
-import com.redmart.skiing.parser.InputParser;
-import org.junit.Test;
-
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Test;
+
+import com.redmart.skiing.exception.UnparsableInputFileException;
+import com.redmart.skiing.model.Node;
+import com.redmart.skiing.parser.InputParser;
 
 import static org.junit.Assert.*;
 
@@ -16,73 +17,81 @@ import static org.junit.Assert.*;
  */
 public class GridInputParserTest
 {
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseDimensionLine_IntegerEntryLessThanTwo_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseDimensionLine_IntegerEntryLessThanTwo_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/less_than_two_entries_for_dimension.txt";
+        String path = "./src/test/resources/input/less_than_two_entries_for_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseDimensionLine_IntegerEntryMoreThanTwo_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseDimensionLine_IntegerEntryMoreThanTwo_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/more_than_two_entries_for_dimension.txt";
+        String path = "./src/test/resources/input/more_than_two_entries_for_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseDimensionLine_InvalidIntegerEntry_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseDimensionLine_InvalidIntegerEntry_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/invalid_entries_for_dimension.txt";
+        String path = "./src/test/resources/input/invalid_entries_for_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseGridLines_RowCountLessThanDimension_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseGridLines_RowCountLessThanDimension_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/row_less_than_dimension.txt";
+        String path = "./src/test/resources/input/row_less_than_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseGridLines_RowCountMoreThanDimension_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseGridLines_RowCountMoreThanDimension_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/row_more_than_dimension.txt";
+        String path = "./src/test/resources/input/row_more_than_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseGridLines_ColumnCountLessThanDimension_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseGridLines_ColumnCountLessThanDimension_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/column_less_than_dimension.txt";
+        String path = "./src/test/resources/input/column_less_than_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseGridLines_ColumnCountMoreThanDimension_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseGridLines_ColumnCountMoreThanDimension_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/column_more_than_dimension.txt";
+        String path = "./src/test/resources/input/column_more_than_dimension.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
     }
 
-    @Test(expected = ParseException.class)
-    public void testParseInput_ParseGridLines_InvalidIntegerEntry_ShouldThrowParseException() throws Exception
+    @Test(expected = UnparsableInputFileException.class)
+    public void testParseInput_ParseGridLines_InvalidIntegerEntry_ShouldThrowUnparsableInputFileException()
+            throws Exception
     {
-        String path = "input/invalid_integer_entry_in_content.txt";
+        String path = "./src/test/resources/input/invalid_integer_entry_in_content.txt";
 
         InputParser parser = new GridInputParser();
         parser.parseInput(path);
@@ -92,7 +101,7 @@ public class GridInputParserTest
     public void testParseInput_ValidInputFile_SingleEntryGrid_ShouldReturnListOfNodesWithSingleElement()
             throws Exception
     {
-        String path = "input/single_element_entry.txt";
+        String path = "./src/test/resources/input/single_element_entry.txt";
 
         InputParser parser = new GridInputParser();
         List<Node> nodes = parser.parseInput(path);
@@ -111,7 +120,7 @@ public class GridInputParserTest
     public void testParseInput_ValidInputFile_MultipleEntriesGrid_ShouldReturnListOfNodesWithCorrectElements()
             throws Exception
     {
-        String path = "input/valid_input.txt";
+        String path = "./src/test/resources/input/valid_input.txt";
 
         List<Node> expectedNodes = constructExpectedNodesForValidInput();
 

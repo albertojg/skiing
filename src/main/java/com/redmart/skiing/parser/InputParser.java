@@ -1,9 +1,9 @@
 package com.redmart.skiing.parser;
 
+import com.redmart.skiing.exception.UnparsableInputFileException;
 import com.redmart.skiing.model.Node;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -19,9 +19,9 @@ public interface InputParser
      *
      * @param path path to the input file
      * @return List of nodes
+     * @throws UnparsableInputFileException
      * @throws IOException
-     * @throws ParseException
      */
     @SuppressWarnings("UnnecessaryInterfaceModifier")
-    public List<Node> parseInput(String path) throws IOException, ParseException;
+    public List<Node> parseInput(String path) throws UnparsableInputFileException, IOException;
 }
